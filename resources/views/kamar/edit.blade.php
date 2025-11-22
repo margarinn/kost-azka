@@ -6,7 +6,7 @@
 
     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
         
-        <form method="POST" action="{{ route('kamar.update', $kamar) }}">
+        <form method="POST" action="{{ route('admin.kamar.update', $kamar) }}">
             @csrf
             @method('PUT')
 
@@ -52,7 +52,7 @@
             </div>
 
             <div class="flex items-center justify-end mt-6">
-                <a href="{{ route('kamar.index') }}" class="text-gray-600 hover:text-gray-900 mr-4">
+                <a href="{{ route('admin.kamar.index') }}" class="text-gray-600 hover:text-gray-900 mr-4">
                     Batal
                 </a>
                 <x-primary-button>

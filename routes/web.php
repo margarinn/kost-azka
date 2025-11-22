@@ -6,11 +6,15 @@ use App\Http\Controllers\KamarController;
 use App\Http\Controllers\GaleriController;
 use App\Models\Kamar;
 
+use App\Models\Galeri;
+
 Route::get('/', function () {
-    return view('welcome');
+    // load latest gallery photos for the landing page carousel
+    $fotos = Galeri::latest()->take(6)->get();
+    return view('landing_page.landing', compact('fotos'));
 });
 
-Route::get('/dashboard', function () {
+Route::get('/admin/dashboard', function () {
     $totalKamar = Kamar::count();
     $kamarTerisi = Kamar::where('status', 'Terisi')->count();
     $kamarKosong = Kamar::where('status', 'Kosong')->count();
@@ -25,9 +29,9 @@ Route::get('/dashboard', function () {
         'daftarKamarKosong'
     ));
 
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified'])->name('admin.dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::name('admin.')->prefix('admin')->middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

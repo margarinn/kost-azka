@@ -1,11 +1,11 @@
 <nav class="w-64 bg-gray-100 p-5 shadow-lg">
-    <a href="{{ route('dashboard') }}" class="block text-center mb-8">
+    <a href="{{ route('admin.dashboard') }}" class="block text-center mb-8">
         <img src="{{ asset('images/logo_kost_azka.png') }}" alt="Kost Azka Logo" class="h-20 mx-auto">
     </a>
     
     <ul>
         <li class="mb-2">
-            <a href="{{ route('dashboard') }}" 
+            <a href="{{ route('admin.dashboard') }}" 
                class="flex items-center p-3 rounded-lg 
                {{ request()->routeIs('dashboard') ? 'bg-[#C6A74D] text-white font-bold' : 'text-gray-700 hover:bg-[#d6bf66]' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -15,7 +15,7 @@
             </a>
         </li>
         <li class="mb-2">
-            <a href="{{ route('kamar.index') }}" 
+            <a href="{{ route('admin.kamar.index') }}" 
                class="flex items-center p-3 rounded-lg 
                {{ request()->routeIs('kamar.*') ? 'bg-[#C6A74D] text-white font-bold' : 'text-gray-700 hover:bg-[#d6bf66]' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -25,7 +25,7 @@
             </a>
         </li>
         <li class="mb-2">
-            <a href="{{ route('galeri.index') }}" 
+            <a href="{{ route('admin.galeri.index') }}" 
                class="flex items-center p-3 rounded-lg 
                {{ request()->routeIs('galeri.*') ? 'bg-[#C6A74D] text-white font-bold' : 'text-gray-700 hover:bg-[#d6bf66]' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

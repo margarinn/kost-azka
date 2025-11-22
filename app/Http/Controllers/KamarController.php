@@ -43,7 +43,7 @@ class KamarController extends Controller
         Kamar::create($validatedData);
 
         // 3. Redirect kembali ke halaman index dengan pesan sukses
-        return redirect()->route('kamar.index')
+        return redirect()->route('admin.kamar.index')
                          ->with('success', 'Kamar baru berhasil ditambahkan.');
     }
 
@@ -75,7 +75,7 @@ class KamarController extends Controller
         $kamar->update($validatedData);
 
         // 3. Redirect kembali ke halaman index dengan pesan sukses
-        return redirect()->route('kamar.index')
+        return redirect()->route('admin.kamar.index')
                          ->with('success', 'Data kamar berhasil diperbarui.');
     }
 
@@ -88,7 +88,7 @@ class KamarController extends Controller
         $kamar->delete();
 
         // Redirect kembali dengan pesan sukses
-        return redirect()->route('kamar.index')
+        return redirect()->route('admin.kamar.index')
                          ->with('success', 'Data kamar berhasil dihapus.');
     }
 }

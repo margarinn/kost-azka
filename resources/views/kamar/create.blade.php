@@ -4,7 +4,7 @@
     </x-slot>
 
     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-        <form method="POST" action="{{ route('kamar.store') }}">
+        <form method="POST" action="{{ route('admin.kamar.store') }}">
             @csrf
 
             <div class="mb-4">
@@ -47,7 +47,7 @@
             </div>
 
             <div class="flex items-center justify-end mt-6">
-                <a href="{{ route('kamar.index') }}" class="text-gray-600 hover:text-gray-900 mr-4">Batal</a>
+                <a href="{{ route('admin.kamar.index') }}" class="text-gray-600 hover:text-gray-900 mr-4">Batal</a>
                 <x-primary-button>
                     {{ __('Tambah') }}
                 </x-primary-button>

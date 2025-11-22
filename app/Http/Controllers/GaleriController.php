@@ -66,7 +66,7 @@ class GaleriController extends Controller
         ]);
 
         // 4. Redirect kembali dengan pesan sukses
-        return redirect()->route('galeri.index')
+        return redirect()->route('admin.galeri.index')
                          ->with('success', 'Foto baru berhasil di-upload.');
     }
 
@@ -88,14 +88,14 @@ class GaleriController extends Controller
             $galeri->delete();
             Log::info('Entri galeri berhasil dihapus dari database untuk ID: ' . $galeri->id); // Log sukses hapus DB
 
-            return redirect()->route('galeri.index')
+            return redirect()->route('admin.galeri.index')
                              ->with('success', 'Foto berhasil dihapus.');
 
         } catch (\Exception $e) {
             // Log error secara detail
             Log::error('Error saat menghapus foto ID ' . $galeri->id . ': ' . $e->getMessage(), ['exception' => $e]);
 
-            return redirect()->route('galeri.index')
+            return redirect()->route('admin.galeri.index')
                              ->with('error', 'Gagal menghapus foto. Silakan coba lagi. (Error detail ada di log server)');
         }
     }

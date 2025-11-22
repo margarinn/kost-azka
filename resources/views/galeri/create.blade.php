@@ -5,7 +5,7 @@
 
     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 max-w-2xl mx-auto">
         
-        <form method="POST" action="{{ route('galeri.store') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('admin.galeri.store') }}" enctype="multipart/form-data">
             @csrf
 
             <div class="mb-4">
@@ -26,7 +26,7 @@
             </div>
 
             <div class="flex items-center justify-end mt-6">
-                <a href="{{ route('galeri.index') }}" class="text-gray-600 hover:text-gray-900 mr-4">Batal</a>
+                <a href="{{ route('admin.galeri.index') }}" class="text-gray-600 hover:text-gray-900 mr-4">Batal</a>
                 <x-primary-button>
                     {{ __('Upload') }}
                 </x-primary-button>
