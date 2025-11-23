@@ -6,6 +6,9 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
+        {{-- Favicon: use LogoKost.png from public/foto so browser tab shows your logo --}}
+        <link rel="icon" type="image/png" href="{{ asset('foto/LogoKost.png') }}">
+        <link rel="shortcut icon" href="{{ asset('foto/LogoKost.png') }}">
 
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
