@@ -64,14 +64,16 @@
                         <thead class="bg-gray-100">
                             <tr>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No. Kamar</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipe Kamar</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Gedung</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Kamar Mandi</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             @forelse ($daftarKamarKosong as $kamar)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $kamar->nomor_kamar }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $kamar->tipe_kamar }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-700">{{ $kamar->gedung }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-700">{{ $kamar->jenis_kamar_mandi }}</td>
                                 </tr>
                             @empty
                                 <tr>
