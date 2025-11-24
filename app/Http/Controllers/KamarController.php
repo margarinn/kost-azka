@@ -8,16 +8,35 @@ use Illuminate\Http\Request;
 class KamarController extends Controller
 {
     /**
-     * Menampilkan daftar semua kamar.
+     * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $kamars = Kamar::orderBy('nomor_kamar', 'asc')->get();
+        $query = Kamar::query();
+
+        if ($request->has('search') && $request->search != '') {
+            $searchTerm = $request->search;
+            $query->where(function($q) use ($searchTerm) {
+                $q->where('nomor_kamar', 'like', '%' . $searchTerm . '%')
+                  ->orWhere('gedung', 'like', '%' . $searchTerm . '%')
+                  ->orWhere('status', 'like', '%' . $searchTerm . '%');
+            });
+        }
+
+
+        if ($request->has('status') && $request->status != '' && $request->status != 'Semua') {
+            $query->where('status', $request->status);
+        }
+        
+        $kamars = $query->orderBy('gedung', 'asc')
+                        ->orderBy('nomor_kamar', 'asc')
+                        ->paginate(10);
+
         return view('kamar.index', compact('kamars'));
     }
 
     /**
-     * Menampilkan form untuk menambah kamar baru.
+     * Show the form for creating a new resource.
      */
     public function create()
     {
@@ -25,70 +44,78 @@ class KamarController extends Controller
     }
 
     /**
-     * Menyimpan kamar baru ke database.
+     * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        // 1. Validasi data yang masuk dari form
+        // 1. Validasi Input
         $validatedData = $request->validate([
-            'nomor_kamar' => 'required|string|max:10|unique:kamars,nomor_kamar',
-            'tipe_kamar'  => 'required|string|max:255',
-            'harga_sewa'  => 'required|integer|min:0',
-            'status'      => 'required|in:Kosong,Terisi,Perbaikan',
-            'deskripsi'   => 'nullable|string',
+            'nomor_kamar' => 'required|unique:kamars,nomor_kamar|max:10',
+            'gedung' => 'required|string',             
+            'jenis_kamar_mandi' => 'required|string', 
+            'harga_sewa' => 'required|numeric|min:0',
+            'status' => 'required|in:Kosong,Terisi,Perbaikan',
+            'deskripsi' => 'nullable|string',
+        ], [
+            // Pesan Error Kustom (Opsional, agar lebih ramah pengguna)
+            'nomor_kamar.required' => 'Nomor kamar wajib diisi.',
+            'nomor_kamar.unique' => 'Nomor kamar ini sudah ada.',
+            'gedung.required' => 'Lokasi gedung wajib dipilih.',
+            'jenis_kamar_mandi.required' => 'Jenis kamar mandi wajib dipilih.',
+            'harga_sewa.required' => 'Harga sewa wajib diisi.',
+            'harga_sewa.numeric' => 'Harga sewa harus berupa angka.',
+            'status.required' => 'Status kamar wajib dipilih.',
         ]);
 
-        // 2. Buat kamar baru menggunakan data yang SUDAH divalidasi
-        // Ini akan bekerja karena $fillable di Model sudah diatur
+        // 2. Simpan Data ke Database
         Kamar::create($validatedData);
 
-        // 3. Redirect kembali ke halaman index dengan pesan sukses
+        // 3. Redirect kembali dengan pesan sukses
         return redirect()->route('admin.kamar.index')
-                         ->with('success', 'Kamar baru berhasil ditambahkan.');
+                         ->with('success', 'Kamar baru berhasil ditambahkan!');
     }
 
     /**
-     * Menampilkan form untuk mengedit kamar.
+     * Show the form for editing the specified resource.
      */
     public function edit(Kamar $kamar)
     {
-        // $kamar sudah otomatis di-fetch oleh Laravel (Route Model Binding)
         return view('kamar.edit', compact('kamar'));
     }
 
     /**
-     * Mengupdate data kamar di database.
+     * Update the specified resource in storage.
      */
     public function update(Request $request, Kamar $kamar)
     {
-        // 1. Validasi data yang masuk
+        // 1. Validasi Input
         $validatedData = $request->validate([
-            // Tambahkan rule 'ignore' untuk unique agar tidak error saat mengedit
-            'nomor_kamar' => 'required|string|max:10|unique:kamars,nomor_kamar,' . $kamar->id,
-            'tipe_kamar'  => 'required|string|max:255',
-            'harga_sewa'  => 'required|integer|min:0',
-            'status'      => 'required|in:Kosong,Terisi,Perbaikan',
-            'deskripsi'   => 'nullable|string',
+            'nomor_kamar' => 'required|max:10|unique:kamars,nomor_kamar,' . $kamar->id,
+            'gedung' => 'required|string',
+            'jenis_kamar_mandi' => 'required|string',
+            'harga_sewa' => 'required|numeric|min:0',
+            'status' => 'required|in:Kosong,Terisi,Perbaikan',
+            'deskripsi' => 'nullable|string',
         ]);
 
-        // 2. Update data kamar menggunakan data yang SUDAH divalidasi
+        // 2. Update Data di Database
         $kamar->update($validatedData);
 
-        // 3. Redirect kembali ke halaman index dengan pesan sukses
+        // 3. Redirect kembali dengan pesan sukses
         return redirect()->route('admin.kamar.index')
-                         ->with('success', 'Data kamar berhasil diperbarui.');
+                         ->with('success', 'Data kamar berhasil diperbarui!');
     }
 
     /**
-     * Menghapus kamar dari database.
+     * Remove the specified resource from storage.
      */
     public function destroy(Kamar $kamar)
     {
-        // Hapus data kamar
+        // Hapus data kamar dari database
         $kamar->delete();
 
         // Redirect kembali dengan pesan sukses
         return redirect()->route('admin.kamar.index')
-                         ->with('success', 'Data kamar berhasil dihapus.');
+                         ->with('success', 'Kamar berhasil dihapus!');
     }
 }

@@ -11,9 +11,10 @@ class Kamar extends Model
 
     protected $fillable = [
         'nomor_kamar',
-        'tipe_kamar',
-        'status',
+        'gedung',             
+        'jenis_kamar_mandi',
         'harga_sewa',
+        'status',
         'deskripsi',
     ];
 }

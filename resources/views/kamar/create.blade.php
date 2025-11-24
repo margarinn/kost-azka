@@ -14,14 +14,24 @@
             </div>
 
             <div class="mb-4">
-                <x-input-label for="tipe_kamar" :value="__('Tipe Kamar')" />
-                <select name="tipe_kamar" id="tipe_kamar" class="block mt-1 w-full border-gray-300 focus:border-amber-500 focus:ring-amber-500 rounded-md shadow-sm">
-                    <option value="AC + KM Dalam" {{ old('tipe_kamar') == 'AC + KM Dalam' ? 'selected' : '' }}>AC + KM Dalam</option>
-                    <option value="Non-AC + KM Dalam" {{ old('tipe_kamar') == 'Non-AC + KM Dalam' ? 'selected' : '' }}>Non-AC + KM Dalam</option>
-                    <option value="Non-AC Standard" {{ old('tipe_kamar') == 'Non-AC Standard' ? 'selected' : '' }}>Non-AC Standard</option>
-                    <option value="AC Standard" {{ old('tipe_kamar') == 'AC Standard' ? 'selected' : '' }}>AC Standard</option>
+                <x-input-label for="gedung" :value="__('Lokasi Gedung')" />
+                <select name="gedung" id="gedung" class="block mt-1 w-full border-gray-300 focus:border-amber-500 focus:ring-amber-500 rounded-md shadow-sm">
+                    <option value="" disabled {{ old('gedung') ? '' : 'selected' }}>Pilih Gedung</option>
+                    <option value="Gedung 1" {{ old('gedung') == 'Gedung 1' ? 'selected' : '' }}>Gedung 1</option>
+                    <option value="Gedung 2" {{ old('gedung') == 'Gedung 2' ? 'selected' : '' }}>Gedung 2</option>
+                    <option value="Gedung 3" {{ old('gedung') == 'Gedung 3' ? 'selected' : '' }}>Gedung 3</option>
                 </select>
-                <x-input-error :messages="$errors->get('tipe_kamar')" class="mt-2" />
+                <x-input-error :messages="$errors->get('gedung')" class="mt-2" />
+            </div>
+
+            <div class="mb-4">
+                <x-input-label for="jenis_kamar_mandi" :value="__('Jenis Kamar Mandi')" />
+                <select name="jenis_kamar_mandi" id="jenis_kamar_mandi" class="block mt-1 w-full border-gray-300 focus:border-amber-500 focus:ring-amber-500 rounded-md shadow-sm">
+                    <option value="" disabled {{ old('jenis_kamar_mandi') ? '' : 'selected' }}>Pilih Jenis</option>
+                    <option value="Dalam" {{ old('jenis_kamar_mandi') == 'Dalam' ? 'selected' : '' }}>Kamar Mandi Dalam</option>
+                    <option value="Luar" {{ old('jenis_kamar_mandi') == 'Luar' ? 'selected' : '' }}>Kamar Mandi Luar</option>
+                </select>
+                <x-input-error :messages="$errors->get('jenis_kamar_mandi')" class="mt-2" />
             </div>
 
             <div class="mb-4">

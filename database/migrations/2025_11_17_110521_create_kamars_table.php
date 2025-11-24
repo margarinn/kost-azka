@@ -8,21 +8,21 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('kamars', function (Blueprint $table) {
-            $table->id();
-            $table->string('nomor_kamar');
-            $table->string('tipe_kamar');
-            $table->enum('status', ['Terisi', 'Kosong', 'Perbaikan']);
-            $table->integer('harga_sewa');
-            $table->text('deskripsi')->nullable();
-            $table->timestamps();
+        Schema::table('kamars', function (Blueprint $table) {
+            if (Schema::hasColumn('kamars', 'tipe_kamar')) {
+                $table->dropColumn('tipe_kamar');
+            }
+
+            $table->string('gedung')->after('nomor_kamar'); 
+            $table->string('jenis_kamar_mandi')->after('gedung'); 
         });
     }
 
     public function down(): void
     {
         Schema::table('kamars', function (Blueprint $table) {
-        $table->dropColumn('nomor_kamar');
-    });
+            $table->dropColumn(['gedung', 'jenis_kamar_mandi']);
+            $table->string('tipe_kamar')->after('nomor_kamar'); 
+        });
     }
 };
