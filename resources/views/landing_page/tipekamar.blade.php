@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
+    {{-- Head sama seperti sebelumnya --}}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tipe Kamar - Azka Living</title>
     <link rel="icon" type="image/png" href="{{ asset('foto/LogoKost.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
-    {{-- Load CSS & JS Pendukung --}}
     <script src="https://cdn.tailwindcss.com"></script>
-    {{-- Alpine.js diperlukan untuk interaktifitas tombol gedung --}}
+    {{-- Alpine.js Wajib Ada --}}
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     
     <style>
+        /* Style sama seperti sebelumnya */
         body { font-family: 'Playfair Display', serif; }
         .btn-gold { background-color: #c4a24c; padding: 10px 20px; border-radius: 20px; color: white; transition: background 0.3s; }
         .btn-gold:hover { background-color: #b39240; }
         .text-gold { color: #c4a24c; }
         .slider-btn { background-color: rgba(255, 255, 255, 0.7); color: #333; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; }
         .slider-btn:hover { background-color: white; color: #c4a24c; }
-        /* Style tombol gedung saat dipilih */
         .gedung-btn.active { background-color: #c4a24c; color: white; border-color: #c4a24c; }
     </style>
 </head>
 
 <body class="bg-gray-50 text-gray-900">
 
-    {{-- NAVBAR --}}
+    {{-- Navbar sama seperti sebelumnya --}}
     <nav class="flex justify-between items-center px-4 md:px-10 py-4 md:py-6 shadow bg-white fixed w-full top-0 z-50">
          <div><a href="{{ url('/') }}"><img src="{{ asset('foto/logo.jpg') }}" alt="Logo" class="w-10 md:w-14"></a></div>
         <ul class="hidden md:flex gap-8">
@@ -41,28 +41,28 @@
         <div class="text-center max-w-3xl mx-auto mb-16">
             <h1 class="text-4xl md:text-6xl font-semibold mb-6 text-gray-900">Pilihan Tipe Kamar</h1>
             <p class="text-gray-600 text-lg leading-relaxed">
-                Cek ketersediaan kamar riil berdasarkan gedung pilihan Anda.
+                Azka Living menyediakan dua pilihan tipe kamar yang dirancang untuk kenyamanan Anda.  Pilih antara privasi total dengan kamar mandi dalam, atau opsi hemat dengan kamar mandi luar yang terawat.
             </p>
         </div>
 
         <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-start">
 
             {{-- ================= TIPE PREMIUM (KM DALAM) ================= --}}
-            {{-- Cek apakah ada data harga dan ketersediaan riil dari DB --}}
-            @if($hargaDalamTerendah && count($ketersediaanDalam) > 0)
+            {{-- Cek apakah ada data gedung untuk tipe ini --}}
+            @if(count($dataDalam) > 0)
             
-            {{-- 
-                Inisialisasi Alpine JS.
-                'dataKetersediaan' diisi dengan data riil dari Controller ($ketersediaanDalam) yang diubah ke format JSON.
-                Ini membuktikan kita menggunakan data yang sudah ada.
-            --}}
+            {{-- Inisialisasi Alpine JS dengan struktur data baru --}}
             <div x-data="{ 
-                    selectedGedung: '{{ array_key_first($ketersediaanDalam) }}', 
-                    dataKetersediaan: {{ json_encode($ketersediaanDalam) }} 
+                    selectedGedung: '{{ array_key_first($dataDalam) }}', 
+                    dataKetersediaan: {{ json_encode($dataDalam) }},
+                    // Fungsi helper untuk format Rupiah
+                    formatRupiah(angka) {
+                        return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
+                    }
                  }" 
                  class="bg-white rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-100 transform hover:-translate-y-2 transition-all duration-300">
                 
-                {{-- SLIDER GAMBAR (Menggunakan foto riil dari Galeri Admin) --}}
+                {{-- Slider Gambar (Sama seperti sebelumnya) --}}
                 <div class="relative h-72 md:h-[400px] group">
                     <img id="img-premium" src="{{ asset('storage/' . ($fotoDalam[0] ?? 'placeholder.jpg')) }}" alt="Kamar Mandi Dalam" class="w-full h-full object-cover transition-opacity duration-300">
                     <div class="absolute top-4 right-4 bg-[#c4a24c] text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg z-10">RECOMMENDED</div>
@@ -84,8 +84,8 @@
                     <div class="mb-6">
                         <h3 class="font-bold text-gray-700 mb-3">Pilih Lokasi Gedung:</h3>
                         <div class="flex flex-wrap gap-2">
-                            {{-- Loop ini membuat tombol berdasarkan nama gedung riil yang ada di DB --}}
-                            @foreach($ketersediaanDalam as $gedung => $jumlah)
+                            {{-- Loop tombol gedung --}}
+                            @foreach($dataDalam as $gedung => $info)
                                 <button @click="selectedGedung = '{{ $gedung }}'"
                                         :class="{ 'active': selectedGedung === '{{ $gedung }}' }"
                                         class="gedung-btn px-4 py-2 rounded-full border-2 border-gray-300 text-gray-600 font-medium transition-all hover:border-[#c4a24c] hover:text-[#c4a24c]">
@@ -95,20 +95,17 @@
                         </div>
                     </div>
 
-                    {{-- STATUS KETERSEDIAAN DINAMIS (Menggunakan data riil) --}}
+                    {{-- STATUS KETERSEDIAAN DINAMIS --}}
                     <div class="mb-8 p-4 bg-gray-50 rounded-xl border border-gray-100">
-                        {{-- Judul berubah sesuai tombol gedung yang diklik --}}
                         <h3 class="font-bold text-gray-700 mb-2" x-text="'Status di ' + selectedGedung + ':'"></h3>
                         
-                        {{-- Tampilkan ini jika jumlah kamar kosong riil > 0 --}}
-                        <div x-show="dataKetersediaan[selectedGedung] > 0" class="flex items-center text-green-600 font-semibold text-lg">
+                        {{-- Akses data menggunakan .tersedia --}}
+                        <div x-show="dataKetersediaan[selectedGedung].tersedia > 0" class="flex items-center text-green-600 font-semibold text-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                            {{-- Angka yang muncul di sini adalah data riil dari DB --}}
-                            <span x-text="dataKetersediaan[selectedGedung] + ' Kamar Tersedia'"></span>
+                            <span x-text="dataKetersediaan[selectedGedung].tersedia + ' Kamar Tersedia'"></span>
                         </div>
                         
-                        {{-- Tampilkan ini jika jumlah kamar kosong riil == 0 --}}
-                        <div x-show="dataKetersediaan[selectedGedung] == 0" class="flex items-center text-red-500 font-semibold text-lg">
+                        <div x-show="dataKetersediaan[selectedGedung].tersedia == 0" class="flex items-center text-red-500 font-semibold text-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                             <span>Yah, Kamar Full</span>
                         </div>
@@ -124,12 +121,16 @@
                     <div class="bg-gray-50 p-6 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-4">
                         <div>
                             <p class="text-sm text-gray-500">Harga mulai dari</p>
-                            {{-- Harga riil dari DB --}}
-                            <p class="text-3xl font-bold text-gray-900">Rp {{ number_format($hargaDalamTerendah, 0, ',', '.') }}<span class="text-sm font-normal text-gray-500">/bln</span></p>
+                            {{-- HARGA DINAMIS BERUBAH SESUAI GEDUNG --}}
+                            {{-- Menggunakan fungsi formatRupiah dan data .harga_mulai --}}
+                            <p class="text-3xl font-bold text-gray-900">
+                                <span x-text="formatRupiah(dataKetersediaan[selectedGedung].harga_mulai)"></span>
+                                <span class="text-sm font-normal text-gray-500">/bln</span>
+                            </p>
                         </div>
-                        {{-- Link WA & Teks Tombol berubah dinamis berdasarkan ketersediaan riil --}}
+                        {{-- Link WA Dinamis --}}
                         <a :href="'https://wa.me/628XXXXXXXX?text=Halo, saya tertarik dengan Tipe Premium (KM Dalam) di ' + selectedGedung + '. Apakah masih tersedia?'" target="_blank" class="btn-gold text-center w-full md:w-auto px-8 shadow-lg">
-                            <span x-text="dataKetersediaan[selectedGedung] > 0 ? 'Booking Sekarang' : 'Tanya Waiting List'"></span>
+                            <span x-text="dataKetersediaan[selectedGedung].tersedia > 0 ? 'Booking Sekarang' : 'Tanya Waiting List'"></span>
                         </a>
                     </div>
                 </div>
@@ -137,14 +138,18 @@
             @endif
 
             {{-- ================= TIPE STANDARD (KM LUAR) ================= --}}
-            {{-- Logika yang sama persis diterapkan untuk tipe KM Luar --}}
-            @if($hargaLuarTerendah && count($ketersediaanLuar) > 0)
+            {{-- Logika yang sama persis untuk Tipe Luar --}}
+            @if(count($dataLuar) > 0)
             <div x-data="{ 
-                    selectedGedungLuar: '{{ array_key_first($ketersediaanLuar) }}', 
-                    dataKetersediaanLuar: {{ json_encode($ketersediaanLuar) }} 
+                    selectedGedungLuar: '{{ array_key_first($dataLuar) }}', 
+                    dataKetersediaanLuar: {{ json_encode($dataLuar) }},
+                    formatRupiah(angka) {
+                        return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
+                    }
                  }"
                  class="bg-white rounded-[2.5rem] overflow-hidden shadow-xl border border-gray-100 transform hover:-translate-y-2 transition-all duration-300">
                 
+                {{-- Slider Gambar (Sama) --}}
                 <div class="relative h-72 md:h-[400px] group">
                     <img id="img-standard" src="{{ asset('storage/' . ($fotoLuar[0] ?? 'placeholder.jpg')) }}" alt="Kamar Mandi Luar" class="w-full h-full object-cover transition-opacity duration-300">
                     @if(count($fotoLuar) > 1)
@@ -161,11 +166,11 @@
                         </div>
                     </div>
 
-                     {{-- PILIHAN GEDUNG --}}
+                     {{-- PILIHAN GEDUNG INTERAKTIF --}}
                     <div class="mb-6">
                         <h3 class="font-bold text-gray-700 mb-3">Pilih Lokasi Gedung:</h3>
                         <div class="flex flex-wrap gap-2">
-                            @foreach($ketersediaanLuar as $gedung => $jumlah)
+                            @foreach($dataLuar as $gedung => $info)
                                 <button @click="selectedGedungLuar = '{{ $gedung }}'"
                                         :class="{ 'active': selectedGedungLuar === '{{ $gedung }}' }"
                                         class="gedung-btn px-4 py-2 rounded-full border-2 border-gray-300 text-gray-600 font-medium transition-all hover:border-[#c4a24c] hover:text-[#c4a24c]">
@@ -178,11 +183,11 @@
                     {{-- STATUS KETERSEDIAAN DINAMIS --}}
                     <div class="mb-8 p-4 bg-gray-50 rounded-xl border border-gray-100">
                         <h3 class="font-bold text-gray-700 mb-2" x-text="'Status di ' + selectedGedungLuar + ':'"></h3>
-                        <div x-show="dataKetersediaanLuar[selectedGedungLuar] > 0" class="flex items-center text-green-600 font-semibold text-lg">
+                        <div x-show="dataKetersediaanLuar[selectedGedungLuar].tersedia > 0" class="flex items-center text-green-600 font-semibold text-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                            <span x-text="dataKetersediaanLuar[selectedGedungLuar] + ' Kamar Tersedia'"></span>
+                            <span x-text="dataKetersediaanLuar[selectedGedungLuar].tersedia + ' Kamar Tersedia'"></span>
                         </div>
-                        <div x-show="dataKetersediaanLuar[selectedGedungLuar] == 0" class="flex items-center text-red-500 font-semibold text-lg">
+                        <div x-show="dataKetersediaanLuar[selectedGedungLuar].tersedia == 0" class="flex items-center text-red-500 font-semibold text-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                             <span>Yah, Kamar Full</span>
                         </div>
@@ -198,10 +203,15 @@
                     <div class="bg-gray-50 p-6 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-4">
                         <div>
                             <p class="text-sm text-gray-500">Harga mulai dari</p>
-                            <p class="text-3xl font-bold text-gray-900">Rp {{ number_format($hargaLuarTerendah, 0, ',', '.') }}<span class="text-sm font-normal text-gray-500">/bln</span></p>
+                            {{-- HARGA DINAMIS --}}
+                            <p class="text-3xl font-bold text-gray-900">
+                                <span x-text="formatRupiah(dataKetersediaanLuar[selectedGedungLuar].harga_mulai)"></span>
+                                <span class="text-sm font-normal text-gray-500">/bln</span>
+                            </p>
                         </div>
+                        {{-- Link WA Dinamis --}}
                         <a :href="'https://wa.me/628XXXXXXXX?text=Halo, saya tertarik dengan Tipe Standard (KM Luar) di ' + selectedGedungLuar + '. Apakah masih tersedia?'" target="_blank" class="bg-gray-800 hover:bg-gray-900 text-white px-8 py-3 rounded-2xl transition-all shadow-lg text-center w-full md:w-auto">
-                             <span x-text="dataKetersediaanLuar[selectedGedungLuar] > 0 ? 'Booking Sekarang' : 'Tanya Waiting List'"></span>
+                             <span x-text="dataKetersediaanLuar[selectedGedungLuar].tersedia > 0 ? 'Booking Sekarang' : 'Tanya Waiting List'"></span>
                         </a>
                     </div>
                 </div>
@@ -211,7 +221,7 @@
         </div>
     </section>
 
-    {{-- FOOTER & SCRIPT SLIDER (Sama seperti sebelumnya, menggunakan data riil dari controller) --}}
+    {{-- Footer & Script sama seperti sebelumnya --}}
     <footer class="mt-10 px-4 md:px-10 py-10 border-t bg-white">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
              <div class="flex items-center gap-4 mb-4 md:mb-0"><img src="{{ asset('foto/logo.jpg') }}" alt="Logo" class="w-10 md:w-14"> <p class="text-sm text-gray-600">© Kost Azka, <span id="year"></span></p></div>
@@ -221,7 +231,6 @@
 
     <script>
         document.getElementById("year").textContent = new Date().getFullYear();
-        // Data gambar riil dari Controller
         const images = {
             premium: @json(array_map(function($path) { return asset('storage/' . $path); }, $fotoDalam)),
             standard: @json(array_map(function($path) { return asset('storage/' . $path); }, $fotoLuar))

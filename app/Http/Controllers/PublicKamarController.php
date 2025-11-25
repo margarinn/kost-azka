@@ -11,17 +11,15 @@ class PublicKamarController extends Controller
 {
     public function index()
     {
-        // --- FUNGSI HELPER: MENGHITUNG DATA RIIL DARI DB ADMIN ---
-        // Fungsi ini tidak membuat data baru, melainkan menghitung data yang sudah ada.
-        $hitungKetersediaan = function($jenisMandi) {
-            // 1. Cari tahu dulu gedung mana saja yang punya jenis kamar ini di database
+        // --- FUNGSI HELPER BARU: MENGHITUNG KETERSEDIAAN & HARGA PER GEDUNG ---
+        $getDataPerGedung = function($jenisMandi) {
+            // 1. Ambil semua gedung yang memiliki jenis kamar ini
             $semuaGedung = Kamar::where('jenis_kamar_mandi', $jenisMandi)
                                 ->distinct()
-                                ->pluck('gedung') // Mengambil data kolom 'gedung' riil
+                                ->pluck('gedung')
                                 ->toArray();
             
-            // 2. Hitung jumlah kamar yang statusnya 'Kosong' (tersedia) per gedung
-            // Ini mengambil data status riil yang diinput admin
+            // 2. Hitung jumlah kamar KOSONG per gedung
             $gedungKosong = Kamar::where('jenis_kamar_mandi', $jenisMandi)
                                  ->where('status', 'Kosong') 
                                  ->select('gedung', DB::raw('count(*) as total'))
@@ -29,41 +27,42 @@ class PublicKamarController extends Controller
                                  ->pluck('total', 'gedung')
                                  ->toArray();
 
-            // 3. Rapikan datanya agar siap ditampilkan
+            // 3. Ambil HARGA TERENDAH per gedung (tidak peduli statusnya kosong/terisi, yang penting ada kamarnya)
+            $hargaPerGedung = Kamar::where('jenis_kamar_mandi', $jenisMandi)
+                                   ->select('gedung', DB::raw('MIN(harga_sewa) as harga_min'))
+                                   ->groupBy('gedung')
+                                   ->pluck('harga_min', 'gedung')
+                                   ->toArray();
+
+            // 4. Gabungkan data menjadi struktur array baru
             $hasilAkhir = [];
             foreach ($semuaGedung as $gedung) {
-                // Jika ada hitungan kosong, pakai data DB. Jika tidak ada, berarti 0.
-                $hasilAkhir[$gedung] = $gedungKosong[$gedung] ?? 0;
+                $hasilAkhir[$gedung] = [
+                    // Jumlah kamar kosong (riil)
+                    'tersedia' => $gedungKosong[$gedung] ?? 0, 
+                    // Harga terendah di gedung tsb (riil)
+                    'harga_mulai' => $hargaPerGedung[$gedung] ?? 0 
+                ];
             }
             ksort($hasilAkhir); // Urutkan nama gedung
             return $hasilAkhir;
         };
 
-        // --- 1. SIAPKAN DATA RIIL TIPE PREMIUM (KM DALAM) ---
-        // Variabel ini akan berisi array seperti: ['Gedung 1' => 3, 'Gedung 2' => 0]
-        // Angka 3 dan 0 ini adalah data ASLI dari database.
-        $ketersediaanDalam = $hitungKetersediaan('Dalam');
+        // --- 1. DATA RIIL TIPE PREMIUM (KM DALAM) ---
+        // Variabel ini sekarang berisi array multidimensi (lihat contoh struktur di atas)
+        $dataDalam = $getDataPerGedung('Dalam');
 
-        // Ambil harga terendah riil dari DB
-        $hargaDalamTerendah = Kamar::where('jenis_kamar_mandi', 'Dalam')
-                                ->min('harga_sewa');
+        // --- 2. DATA RIIL TIPE STANDARD (KM LUAR) ---
+        $dataLuar = $getDataPerGedung('Luar');
 
-        // --- 2. SIAPKAN DATA RIIL TIPE STANDARD (KM LUAR) ---
-        $ketersediaanLuar = $hitungKetersediaan('Luar');
-
-        // Ambil harga terendah riil dari DB
-        $hargaLuarTerendah = Kamar::where('jenis_kamar_mandi', 'Luar')
-                                ->min('harga_sewa');
-
-
-        // --- 3. FOTO GALERI (Data Riil dari Galeri Admin) ---
+        // --- 3. FOTO GALERI (Sama seperti sebelumnya) ---
         $fotoDalam = Galeri::where('kategori', 'like', '%Dalam%')->pluck('foto_path')->toArray();
         $fotoLuar = Galeri::where('kategori', 'like', '%Luar%')->pluck('foto_path')->toArray();
 
-        // Kirim semua data riil ini ke tampilan (view)
+        // Kirim data yang sudah terstruktur baru ini ke view
         return view('landing_page.tipekamar', compact(
-            'ketersediaanDalam', 'hargaDalamTerendah', 'fotoDalam',
-            'ketersediaanLuar', 'hargaLuarTerendah', 'fotoLuar'
+            'dataDalam', 'fotoDalam',
+            'dataLuar', 'fotoLuar'
         ));
     }
 }
