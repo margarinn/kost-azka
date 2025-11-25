@@ -39,4 +39,10 @@ Route::name('admin.')->prefix('admin')->middleware('auth')->group(function () {
     Route::resource('galeri', GaleriController::class);
 });
 
+Route::get('/tipe-kamar', function () {
+    // load latest gallery photos for the landing page carousel
+    $fotos = Galeri::latest()->take(6)->get();
+    return view('landing_page.tipekamar', compact('fotos'));
+});
+
 require __DIR__.'/auth.php';

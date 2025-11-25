@@ -34,7 +34,6 @@
         .hero-image {
             height: 300px;
         }
-        /* Animasi slide menu mobile */
         #mobile-menu {
             transition: all 0.3s ease-in-out;
         }
@@ -54,10 +53,10 @@
          </div>
         
         <ul class="hidden md:flex gap-8">
-            <li><a href="#tentang" class="hover:text-gray-600">Tentang</a></li>
-            <li><a href="#fasilitas" class="hover:text-gray-600">Fasilitas</a></li>
-            <li><a href="#hubungi-kami" class="hover:text-gray-600">Hubungi Kami</a></li>
-            <li><a href="#" class="hover:text-gray-600">Tipe Kamar</a></li>
+            <li><a href="#tentang" class="nav-link hover:text-gray-600 transition-colors">Tentang</a></li>
+            <li><a href="#fasilitas" class="nav-link hover:text-gray-600 transition-colors">Fasilitas</a></li>
+            <li><a href="#hubungi-kami" class="nav-link hover:text-gray-600 transition-colors">Hubungi Kami</a></li>
+            <li><a href="{{ url('/tipe-kamar') }}" class="nav-link hover:text-gray-600 transition-colors">Tipe Kamar</a></li>
         </ul>
 
         <div class="flex items-center gap-3">
@@ -183,67 +182,6 @@
     }
     </style>
 
-    <script>
-    // --- SCRIPT CAROUSEL ---
-    const items = document.querySelectorAll('.carousel-item');
-    let current = 0;
-    let slideInterval;
-
-    function update() {
-        items.forEach((item, i) => {
-            item.classList.remove('left','right','active');
-            if(i === current) item.classList.add('active');
-            else if(i === (current - 1 + items.length) % items.length) item.classList.add('left');
-            else if(i === (current + 1) % items.length) item.classList.add('right');
-            else item.style.transform = 'scale(0.85) translateX(0)'; 
-        });
-    }
-
-    function startAutoSlide() {
-        slideInterval = setInterval(() => {
-            current = (current + 1) % items.length;
-            update();
-        }, 5000);
-    }
-
-    function resetTimer() {
-        clearInterval(slideInterval);
-        startAutoSlide();
-    }
-
-    document.getElementById('prev').addEventListener('click', () => {
-        current = (current - 1 + items.length) % items.length;
-        update();
-        resetTimer();
-    });
-    document.getElementById('next').addEventListener('click', () => {
-        current = (current + 1) % items.length;
-        update();
-        resetTimer();
-    });
-
-    // --- SCRIPT MOBILE MENU TOGGLE ---
-    const menuBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-
-    menuBtn.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-    });
-
-    // Tambahan: Tutup menu mobile saat link diklik
-    document.querySelectorAll('#mobile-menu a').forEach(link => {
-        link.addEventListener('click', () => {
-            mobileMenu.classList.add('hidden');
-        });
-    });
-
-    // Jalankan saat load
-    window.addEventListener('load', () => {
-        update();
-        startAutoSlide();
-    });
-    </script>
-
     <section class="mt-16 md:mt-24 text-center px-4 md:px-10">
         <h2 class="text-3xl md:text-4xl font-semibold mb-5">Kenapa Kost Azka?</h2>
         <p class="text-gray-600 max-w-2xl mx-auto">
@@ -341,7 +279,92 @@
     </footer>
 
     <script>
-        document.getElementById("year").textContent = new Date().getFullYear();
+    // --- SCRIPT 1: CAROUSEL ---
+    const items = document.querySelectorAll('.carousel-item');
+    let current = 0;
+    let slideInterval;
+
+    function update() {
+        if(items.length === 0) return;
+        items.forEach((item, i) => {
+            item.classList.remove('left','right','active');
+            if(i === current) item.classList.add('active');
+            else if(i === (current - 1 + items.length) % items.length) item.classList.add('left');
+            else if(i === (current + 1) % items.length) item.classList.add('right');
+            else item.style.transform = 'scale(0.85) translateX(0)'; 
+        });
+    }
+
+    function startAutoSlide() {
+        if(items.length === 0) return;
+        slideInterval = setInterval(() => {
+            current = (current + 1) % items.length;
+            update();
+        }, 5000);
+    }
+
+    function resetTimer() {
+        clearInterval(slideInterval);
+        startAutoSlide();
+    }
+
+    if(items.length > 0) {
+        document.getElementById('prev').addEventListener('click', () => {
+            current = (current - 1 + items.length) % items.length;
+            update();
+            resetTimer();
+        });
+        document.getElementById('next').addEventListener('click', () => {
+            current = (current + 1) % items.length;
+            update();
+            resetTimer();
+        });
+    }
+
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    menuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+
+    document.querySelectorAll('#mobile-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+        });
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    window.addEventListener('load', () => {
+        update();
+        startAutoSlide();
+    });
+
+    const sections = document.querySelectorAll("section");
+    const navLinks = document.querySelectorAll(".nav-link"); 
+
+    window.addEventListener("scroll", () => {
+        let currentSection = "";
+
+        sections.forEach((section) => {
+            if(section.getAttribute("id")) {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 150) {
+                    currentSection = section.getAttribute("id");
+                }
+            }
+        });
+
+        navLinks.forEach((link) => {
+            link.classList.remove("text-[#c4a24c]", "font-bold");
+            
+
+            if (currentSection && link.getAttribute("href").includes(currentSection)) {
+                link.classList.add("text-[#c4a24c]", "font-bold");
+            }
+        });
+    });
     </script>
 </body>
 </html>
