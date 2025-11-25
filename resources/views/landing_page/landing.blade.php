@@ -234,7 +234,7 @@
     <section class="mt-20 md:mt-28 px-4 md:px-10">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
             <div class="order-1 w-full h-[350px] md:h-[450px] rounded-2xl md:rounded-3xl overflow-hidden shadow-lg">
-                <img src="foto/janji.jpg" class="w-full h-full object-cover" alt="Janji Layanan">
+                <img src="foto/janji.jpeg" class="w-full h-full object-cover" alt="Janji Layanan">
             </div>
             <div class="order-2">
                 <p class="text-xl md:text-3xl leading-relaxed"> “Prioritas utama kami adalah ketenangan Anda. 
