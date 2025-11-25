@@ -337,12 +337,28 @@
 
     function update() {
         if(items.length === 0) return;
+        
         items.forEach((item, i) => {
-            item.classList.remove('left','right','active');
-            if(i === current) item.classList.add('active');
-            else if(i === (current - 1 + items.length) % items.length) item.classList.add('left');
-            else if(i === (current + 1) % items.length) item.classList.add('right');
-            else item.style.transform = 'scale(0.85) translateX(0)'; 
+            // 1. Reset class posisi
+            item.classList.remove('left', 'right', 'active');
+            
+            // 2. PENTING: Hapus inline style transform agar tidak menimpa CSS Class
+            item.style.transform = ''; 
+            item.style.zIndex = '';
+            item.style.opacity = '';
+            item.style.filter = '';
+
+            // 3. Tambahkan class sesuai logika
+            if(i === current) {
+                item.classList.add('active');
+            } 
+            else if(i === (current - 1 + items.length) % items.length) {
+                item.classList.add('left');
+            } 
+            else if(i === (current + 1) % items.length) {
+                item.classList.add('right');
+            } 
+            // Tidak perlu 'else' untuk posisi default, karena sudah dihandle oleh CSS .carousel-item
         });
     }
 
