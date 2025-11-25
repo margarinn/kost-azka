@@ -43,37 +43,50 @@
             }
         }
 
-        .carousel-item {
-        opacity: 0.5;         
-        transform: scale(0.8) translateX(0); 
-        z-index: 0;
-        filter: blur(3px) brightness(0.8); 
+        .perspective-1000 {
+        perspective: 1000px;
     }
+
+
+    .carousel-item {
+        opacity: 0;
+        transform: scale(0.7) translateX(0) rotateY(0deg);
+        z-index: 0;
+        filter: blur(5px) brightness(0.7) grayscale(0.4); 
+        transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1); 
+        pointer-events: none;
+    }
+
 
     .carousel-item.active {
         opacity: 1;
-        transform: scale(1.05) translateX(0); 
-        z-index: 20;
-        filter: blur(0) brightness(1);
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35); 
+        transform: scale(1) translateX(0) rotateY(0deg); 
+        z-index: 30;
+        filter: blur(0) brightness(1) grayscale(0);
+        box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.5);
+        pointer-events: auto;
     }
-
 
     .carousel-item.left {
-        transform: scale(0.8) translateX(-90px) rotate(-3deg);
-        z-index: 10;
+        opacity: 0.6; 
+        z-index: 20; 
+        transform: scale(0.85) translateX(-120px) rotateZ(-5deg) translateY(20px);
+        filter: blur(1px) brightness(0.8);
     }
+
     .carousel-item.right {
-        transform: scale(0.8) translateX(90px) rotate(3deg);
-        z-index: 10;
+        opacity: 0.6;
+        z-index: 20;
+        transform: scale(0.85) translateX(120px) rotateZ(5deg) translateY(20px);
+        filter: blur(1px) brightness(0.8);
     }
 
     @media (min-width: 768px) {
         .carousel-item.left {
-            transform: scale(0.8) translateX(-450px) rotate(-5deg); 
+            transform: scale(0.8) translateX(-350px) rotateZ(-8deg) translateY(30px); 
         }
         .carousel-item.right {
-            transform: scale(0.8) translateX(450px) rotate(5deg);
+            transform: scale(0.8) translateX(350px) rotateZ(8deg) translateY(30px);
         }
     }
     </style>
@@ -155,28 +168,24 @@
             <button id="prev" class="absolute left-2 top-1/2 -translate-y-1/2 z-20 bg-white/70 hover:bg-white/90 p-3 rounded-full shadow-lg">
                 ❮
             </button>
-            <div class="relative w-full flex justify-center items-center h-[400px] md:h-[650px] overflow-hidden py-10">
-                {{-- 
-                Peningkatan: 
-                1. Tinggi container diperbesar: h-[400px] (mobile), h-[650px] (desktop).
-                2. Ditambahkan py-10 untuk memberi ruang napas di atas dan bawah.
-                --}}
-
-                @if(isset($fotos) && $fotos->count())
-                    @foreach($fotos as $foto)
-                        <img src="{{ asset('storage/' . $foto->foto_path) }}"
-                            class="carousel-item absolute 
-                                    w-[95%] h-[350px] {
-                                    md:w-[850px] md:h-[500px] 
-                                    rounded-3xl object-cover transition-all duration-700 ease-in-out shadow-2xl"
-                            alt="Foto - {{ $foto->kategori ?? 'Galeri' }}">
-                    @endforeach
-                @else
-                    {{-- Gambar Placeholder (Fallback) juga diperbesar --}}
-                    <img src="foto/kamar1.jpg" class="carousel-item absolute w-[95%] h-[350px] md:w-[850px] md:h-[500px] rounded-3xl object-cover transition-all duration-700 ease-in-out shadow-2xl" alt="Kamar 1">
-                    <img src="foto/kamar2.jpg" class="carousel-item absolute w-[95%] h-[350px] md:w-[850px] md:h-[500px] rounded-3xl object-cover transition-all duration-700 ease-in-out shadow-2xl" alt="Kamar 2">
-                    <img src="foto/kamar3.jpg" class="carousel-item absolute w-[95%] h-[350px] md:w-[850px] md:h-[500px] rounded-3xl object-cover transition-all duration-700 ease-in-out shadow-2xl" alt="Kamar 3">
-                @endif
+            <div class="relative w-full flex justify-center items-center h-[450px] md:h-[700px] overflow-hidden py-10 my-10 bg-gray-50/50 rounded-[3rem]">
+                <div class="relative w-full max-w-6xl h-full flex justify-center items-center perspective-1000">
+                    @if(isset($fotos) && $fotos->count())
+                        @foreach($fotos as $foto)
+                            <img src="{{ asset('storage/' . $foto->foto_path) }}"
+                                class="carousel-item absolute 
+                                        w-[85%] h-[350px] {{-- Mobile size --}}
+                                        md:w-[800px] md:h-[500px] {{-- Desktop size --}}
+                                        rounded-3xl object-cover shadow-2xl"
+                                alt="Foto - {{ $foto->kategori ?? 'Galeri' }}">
+                        @endforeach
+                    @else
+                        {{-- Fallback Images --}}
+                        <img src="foto/kamar1.jpg" class="carousel-item absolute w-[85%] h-[350px] md:w-[800px] md:h-[500px] rounded-3xl object-cover shadow-2xl" alt="Kamar 1">
+                        <img src="foto/kamar2.jpg" class="carousel-item absolute w-[85%] h-[350px] md:w-[800px] md:h-[500px] rounded-3xl object-cover shadow-2xl" alt="Kamar 2">
+                        <img src="foto/kamar3.jpg" class="carousel-item absolute w-[85%] h-[350px] md:w-[800px] md:h-[500px] rounded-3xl object-cover shadow-2xl" alt="Kamar 3">
+                    @endif
+                </div>
 
             </div>
 
