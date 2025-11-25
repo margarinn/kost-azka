@@ -212,10 +212,10 @@
             currentIndex[type] = newIndex;
             const imgElement = document.getElementById(`img-${type}`);
             imgElement.style.opacity = 0;
-            setTimeout(() => {
+            setTimeout(() => { 
                 imgElement.src = images[type][newIndex];
                 imgElement.style.opacity = 1;
-            }, 150);
+            }, 150) ;
         }
     </script>
 </body>
