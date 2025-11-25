@@ -42,10 +42,6 @@
         <x-primary-button class="w-full justify-center bg-[#D4BE7F] hover:bg-[#C2AA6B] text-gray-900 font-bold py-2 px-4 rounded-md focus:ring-amber-500 focus:border-amber-500">
             {{ __('Masuk') }}
         </x-primary-button>
-
-        <p class="text-center text-sm text-gray-600 mt-4">
-            Belum punya akun? 
-            <a class="underline text-[#D4BE7F] hover:text-[#C2AA6B]" href="{{ route('register') }}">Daftar Sekarang</a>
         </p>
     </form>
 </x-auth-layout>

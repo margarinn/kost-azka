@@ -14,19 +14,17 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     
     <style>
-        /* Base Styles */
         body { font-family: 'Playfair Display', serif; }
         
-        /* Style Tombol Gold (Ukuran disesuaikan untuk mobile dan desktop) */
         .btn-gold { 
             background-color: #c4a24c; 
-            padding: 8px 16px; /* Padding default (mobile) */
+            padding: 8px 16px;
             border-radius: 20px; 
             color: white; 
             transition: background 0.3s; 
-            font-size: 0.85rem; /* Font size default (mobile) */
+            font-size: 0.85rem; 
         }
-        @media (min-width: 768px) { /* Tablet & Desktop */
+        @media (min-width: 768px) { 
             .btn-gold {
                 padding: 10px 20px;
                 font-size: 0.9rem;
@@ -35,7 +33,6 @@
         .btn-gold:hover { background-color: #b39240; }
         .text-gold { color: #c4a24c; }
 
-        /* Style Slider Button */
         .slider-btn { 
             background-color: rgba(255, 255, 255, 0.7); 
             color: #333; 
@@ -49,7 +46,6 @@
         }
         .slider-btn:hover { background-color: white; color: #c4a24c; }
 
-        /* Style Tombol Gedung */
         .gedung-btn.active { background-color: #c4a24c; color: white; border-color: #c4a24c; }
         .gedung-btn { 
             padding: 6px 12px; 
@@ -59,7 +55,6 @@
             .gedung-btn { font-size: 0.85rem; }
         }
 
-        /* Navbar Mobile Transition */
         #mobile-menu { transition: all 0.3s ease-in-out; }
     </style>
 </head>
@@ -191,6 +186,7 @@
                         <li class="flex items-center gap-2"><span class="text-[#c4a24c]">✔</span> Kamar Mandi Pribadi</li>
                         <li class="flex items-center gap-2"><span class="text-[#c4a24c]">✔</span> Full AC Dingin</li>
                         <li class="flex items-center gap-2"><span class="text-[#c4a24c]">✔</span> WiFi High Speed</li>
+                        <li class="flex items-center gap-2"><span class="text-[#c4a24c]">✔</span> Dapur Bersama</li>
                     </ul>
 
                     {{-- Price & CTA Section: Flex column di mobile, row di desktop --}}
@@ -265,6 +261,7 @@
                         <li class="flex items-center gap-2"><span class="text-gray-400">✔</span> Kamar Mandi Luar Bersih</li>
                         <li class="flex items-center gap-2"><span class="text-gray-400">✔</span> Kipas Angin / AC (Opsional)</li>
                         <li class="flex items-center gap-2"><span class="text-gray-400">✔</span> WiFi High Speed</li>
+                        <li class="flex items-center gap-2"><span class="text-gray-400">✔</span> Dapur Bersama</li>
                     </ul>
 
                     <div class="bg-gray-50 p-4 rounded-xl flex flex-col md:flex-row justify-between items-center gap-3">
