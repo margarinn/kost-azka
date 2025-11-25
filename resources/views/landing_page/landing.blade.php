@@ -42,6 +42,40 @@
                 height: 400px;
             }
         }
+
+        .carousel-item {
+        opacity: 0.5;         
+        transform: scale(0.8) translateX(0); 
+        z-index: 0;
+        filter: blur(3px) brightness(0.8); 
+    }
+
+    .carousel-item.active {
+        opacity: 1;
+        transform: scale(1.05) translateX(0); 
+        z-index: 20;
+        filter: blur(0) brightness(1);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35); 
+    }
+
+
+    .carousel-item.left {
+        transform: scale(0.8) translateX(-90px) rotate(-3deg);
+        z-index: 10;
+    }
+    .carousel-item.right {
+        transform: scale(0.8) translateX(90px) rotate(3deg);
+        z-index: 10;
+    }
+
+    @media (min-width: 768px) {
+        .carousel-item.left {
+            transform: scale(0.8) translateX(-450px) rotate(-5deg); 
+        }
+        .carousel-item.right {
+            transform: scale(0.8) translateX(450px) rotate(5deg);
+        }
+    }
     </style>
 </head>
 
@@ -121,21 +155,29 @@
             <button id="prev" class="absolute left-2 top-1/2 -translate-y-1/2 z-20 bg-white/70 hover:bg-white/90 p-3 rounded-full shadow-lg">
                 ❮
             </button>
+            <div class="relative w-full flex justify-center items-center h-[400px] md:h-[650px] overflow-hidden py-10">
+                {{-- 
+                Peningkatan: 
+                1. Tinggi container diperbesar: h-[400px] (mobile), h-[650px] (desktop).
+                2. Ditambahkan py-10 untuk memberi ruang napas di atas dan bawah.
+                --}}
 
-            <div class="relative w-full flex justify-center items-center h-80 md:h-[550px] overflow-hidden">
-                
                 @if(isset($fotos) && $fotos->count())
                     @foreach($fotos as $foto)
                         <img src="{{ asset('storage/' . $foto->foto_path) }}"
-                             class="carousel-item absolute w-11/12 md:w-[750px] h-72 md:h-[400px] rounded-2xl object-cover transition-all duration-700 shadow-xl"
-                             alt="Foto - {{ $foto->kategori ?? 'Galeri' }}">
+                            class="carousel-item absolute 
+                                    w-[95%] h-[350px] {
+                                    md:w-[850px] md:h-[500px] 
+                                    rounded-3xl object-cover transition-all duration-700 ease-in-out shadow-2xl"
+                            alt="Foto - {{ $foto->kategori ?? 'Galeri' }}">
                     @endforeach
                 @else
-                    <img src="foto/kamar1.jpg" class="carousel-item absolute w-11/12 md:w-[750px] h-72 md:h-[400px] rounded-2xl object-cover transition-all duration-700 shadow-xl" alt="Kamar 1">
-                    <img src="foto/kamar2.jpg" class="carousel-item absolute w-11/12 md:w-[750px] h-72 md:h-[400px] rounded-2xl object-cover transition-all duration-700 shadow-xl" alt="Kamar 2">
-                    <img src="foto/kamar3.jpg" class="carousel-item absolute w-11/12 md:w-[750px] h-72 md:h-[400px] rounded-2xl object-cover transition-all duration-700 shadow-xl" alt="Kamar 3">
+                    {{-- Gambar Placeholder (Fallback) juga diperbesar --}}
+                    <img src="foto/kamar1.jpg" class="carousel-item absolute w-[95%] h-[350px] md:w-[850px] md:h-[500px] rounded-3xl object-cover transition-all duration-700 ease-in-out shadow-2xl" alt="Kamar 1">
+                    <img src="foto/kamar2.jpg" class="carousel-item absolute w-[95%] h-[350px] md:w-[850px] md:h-[500px] rounded-3xl object-cover transition-all duration-700 ease-in-out shadow-2xl" alt="Kamar 2">
+                    <img src="foto/kamar3.jpg" class="carousel-item absolute w-[95%] h-[350px] md:w-[850px] md:h-[500px] rounded-3xl object-cover transition-all duration-700 ease-in-out shadow-2xl" alt="Kamar 3">
                 @endif
-                
+
             </div>
 
             <button id="next" class="absolute right-2 top-1/2 -translate-y-1/2 z-20 bg-white/70 hover:bg-white/90 p-3 rounded-full shadow-lg">
