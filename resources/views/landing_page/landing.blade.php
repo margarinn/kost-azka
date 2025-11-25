@@ -56,7 +56,7 @@
             <li><a href="#tentang" class="nav-link hover:text-gray-600 transition-colors">Tentang</a></li>
             <li><a href="#fasilitas" class="nav-link hover:text-gray-600 transition-colors">Fasilitas</a></li>
             <li><a href="#hubungi-kami" class="nav-link hover:text-gray-600 transition-colors">Hubungi Kami</a></li>
-            <li><a href="{{ url('/tipe-kamar') }}" class="nav-link hover:text-gray-600 transition-colors">Tipe Kamar</a></li>
+            <li><a href="{{ url('/tipekamar') }}" class="nav-link hover:text-gray-600 transition-colors">Tipe Kamar</a></li>
         </ul>
 
         <div class="flex items-center gap-3">

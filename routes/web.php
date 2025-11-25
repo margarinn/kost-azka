@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KamarController;
 use App\Http\Controllers\GaleriController;
 use App\Models\Kamar;
-
+use App\Http\Controllers\PublicKamarController;
 use App\Models\Galeri;
 
 Route::get('/', function () {
@@ -39,10 +39,11 @@ Route::name('admin.')->prefix('admin')->middleware('auth')->group(function () {
     Route::resource('galeri', GaleriController::class);
 });
 
-Route::get('/tipe-kamar', function () {
-    // load latest gallery photos for the landing page carousel
-    $fotos = Galeri::latest()->take(6)->get();
-    return view('landing_page.tipekamar', compact('fotos'));
-});
+Route::get('/tipekamar', [PublicKamarController::class, 'index'])->name('landing_page.tipekamar');
+// Route::get('/tipe-kamar', function () {
+//     // load latest gallery photos for the landing page carousel
+//     $fotos = Galeri::latest()->take(6)->get();
+//     return view('landing_page.tipekamar', compact('fotos'));
+// });
 
 require __DIR__.'/auth.php';
