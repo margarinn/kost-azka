@@ -316,7 +316,7 @@
             <div class="flex flex-col md:flex-row gap-4 md:gap-10 text-sm font-medium mb-8 md:mb-12">
                 <a href="#tentang" class="hover:text-gray-500">Tentang Kami</a>
                 <a href="#fasilitas" class="hover:text-gray-500">Fasilitas</a>
-                <a href="#" class="hover:text-gray-500">Tipe Kamar</a>
+                <a href="{{ route('landing_page.tipekamar') }}" class="hover:text-gray-500">Tipe Kamar</a>
             </div>
             <div class="flex flex-col md:flex-row justify-between items-start md:items-end space-y-4 md:space-y-0">
                 <div class="flex items-center gap-4">
@@ -330,7 +330,6 @@
     </footer>
 
     <script>
-    // --- SCRIPT 1: CAROUSEL ---
     const items = document.querySelectorAll('.carousel-item');
     let current = 0;
     let slideInterval;
@@ -339,16 +338,13 @@
         if(items.length === 0) return;
         
         items.forEach((item, i) => {
-            // 1. Reset class posisi
             item.classList.remove('left', 'right', 'active');
-            
-            // 2. PENTING: Hapus inline style transform agar tidak menimpa CSS Class
+
             item.style.transform = ''; 
             item.style.zIndex = '';
             item.style.opacity = '';
             item.style.filter = '';
 
-            // 3. Tambahkan class sesuai logika
             if(i === current) {
                 item.classList.add('active');
             } 
@@ -358,7 +354,6 @@
             else if(i === (current + 1) % items.length) {
                 item.classList.add('right');
             } 
-            // Tidak perlu 'else' untuk posisi default, karena sudah dihandle oleh CSS .carousel-item
         });
     }
 
