@@ -121,7 +121,7 @@
         <ul class="flex flex-col text-center py-4 space-y-4 font-medium">
             <li><a href="#tentang" class="block py-2 hover:bg-gray-50 hover:text-[#c4a24c]">Tentang</a></li>
             <li><a href="#fasilitas" class="block py-2 hover:bg-gray-50 hover:text-[#c4a24c]">Fasilitas</a></li>
-            <li><a href="#" class="block py-2 hover:bg-gray-50 hover:text-[#c4a24c]">Tipe Kamar</a></li>
+            <li><a href="{{ route('landing_page.tipekamar') }}" class="block py-2 hover:bg-gray-50 hover:text-[#c4a24c]">Tipe Kamar</a></li>
             <li><a href="#hubungi-kami" class="block py-2 hover:bg-gray-50 hover:text-[#c4a24c]">Hubungi Kami</a></li>
         </ul>
     </div>
