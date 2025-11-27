@@ -199,7 +199,7 @@
                             </p>
                         </div>
                         {{-- Tombol full width di mobile --}}
-                        <a :href="'https://wa.me/628XXXXXXXX?text=Halo, saya tertarik dengan Tipe Premium (KM Dalam) di ' + selectedGedung + '. Apakah masih tersedia?'" target="_blank" class="btn-gold text-center w-full md:w-auto shadow-md">
+                        <a :href="'https://wa.me/62895375675640?text=Halo, saya tertarik dengan Tipe Premium (KM Dalam) di ' + selectedGedung + '. Apakah masih tersedia?'" target="_blank" class="btn-gold text-center w-full md:w-auto shadow-md">
                             <span x-text="dataKetersediaan[selectedGedung].tersedia > 0 ? 'Booking Sekarang' : 'Waiting List'"></span>
                         </a>
                     </div>
@@ -272,7 +272,7 @@
                                 <span class="text-[0.65rem] md:text-xs font-normal text-gray-500">/bln</span>
                             </p>
                         </div>
-                        <a :href="'https://wa.me/628XXXXXXXX?text=Halo, saya tertarik dengan Tipe Standard (KM Luar) di ' + selectedGedungLuar + '. Apakah masih tersedia?'" target="_blank" class="btn-gold text-center w-full md:w-auto shadow-md">
+                        <a :href="'https://wa.me/62895375675640?text=Halo, saya tertarik dengan Tipe Standard (KM Luar) di ' + selectedGedungLuar + '. Apakah masih tersedia?'" target="_blank" class="btn-gold text-center w-full md:w-auto shadow-md">
                              <span x-text="dataKetersediaanLuar[selectedGedungLuar].tersedia > 0 ? 'Booking Sekarang' : 'Waiting List'"></span>
                         </a>
                     </div>
