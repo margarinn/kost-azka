@@ -303,7 +303,7 @@
         <p class="text-gray-600 mb-8">
             Jadwalkan survey anda dengan cepat dan dapatkan layanan terbaik dari kami.
         </p>
-        <a href="https://wa.me/628XXXXXXXX" target="_blank" class="btn-gold inline-block mb-10 md:mb-16">Jadwalkan Survei →</a>
+        <a href="https://wa.me/62895375675640" target="_blank" class="btn-gold inline-block mb-10 md:mb-16">Jadwalkan Survei →</a>
         <div class="w-full max-w-5xl mx-auto">
             <div class="w-full h-[300px] md:h-[400px] rounded-2xl md:rounded-3xl overflow-hidden shadow-lg">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3963.436836942715!2d106.806783!3d-6.592502!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwMzUnMzMuMCJTIDEwNsKwNDgnMjQuNCJF!5e0!3m2!1sen!2sid!4v1763221625517!5m2!1sen!2sid" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
