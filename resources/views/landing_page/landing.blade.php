@@ -274,7 +274,7 @@
                     <li>✔ Tempat parkir luas & aman</li>
                     <li>✔ Area komunal untuk bersantai</li>
                 </ul>
-                <a href="#" class="btn-gold inline-block mt-6 md:mt-8">Lihat Fasilitas</a>
+                <a href="{{ route('landing_page.tipekamar') }}" class="btn-gold inline-block mt-6 md:mt-8">Lihat Fasilitas</a>
             </div>
             <div class="order-1 md:order-2 w-full h-[300px] md:h-[420px] rounded-2xl md:rounded-3xl overflow-hidden shadow-lg">
                 <img src="foto/lingkungan.jpeg" class="w-full h-full object-cover" alt="Lingkungan Kost">
